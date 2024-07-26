@@ -1,14 +1,19 @@
 package com.craxiom.test.ns.intent
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.craxiom.test.ns.intent.ui.theme.NSIntentTestAppTheme
@@ -19,11 +24,47 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NSIntentTestAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Scaffold(
+                    modifier = Modifier.fillMaxSize()
+                ) { innerPadding ->
+                    Column(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Greeting(
+                            name = "Welcome",
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                        Button(onClick = {
+                            val startNetworkSurveyIntent =
+                                Intent("com.craxiom.networksurvey.START_SURVEY")
+
+                            // These flags are for file logging
+                            startNetworkSurveyIntent.putExtra("cellular_file_logging", true)
+                            startNetworkSurveyIntent.putExtra("wifi_file_logging", true)
+
+                            // MQTT is configured via a JSON string
+                            val mqttConfigJsonString = "{\"mqtt_username\": \"auser\", " +
+                                    "\"mqtt_password\": \"apassword\", " +
+                                    "\"mqtt_host\": \"cloud.mymqttserver.com\", " +
+                                    "\"mqtt_port\": 8883, " +
+                                    "\"mqtt_client\": \"aclient\", " +
+                                    "\"mqtt_tls\": true, " +
+                                    "\"cellular_stream_enabled\": true, " +
+                                    "\"wifi_stream_enabled\": true"
+                            startNetworkSurveyIntent.putExtra(
+                                "mqtt_config_json",
+                                mqttConfigJsonString
+                            )
+
+                            sendBroadcast(startNetworkSurveyIntent)
+                        }) {
+                            Text("Send Intent")
+                        }
+                    }
                 }
             }
         }
