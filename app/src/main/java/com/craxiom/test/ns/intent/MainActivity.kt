@@ -1,7 +1,9 @@
 package com.craxiom.test.ns.intent
 
+import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -55,12 +57,16 @@ class MainActivity : ComponentActivity() {
                                     "\"mqtt_tls\": true, " +
                                     "\"cellular_stream_enabled\": true, " +
                                     "\"wifi_stream_enabled\": true"
-                            startNetworkSurveyIntent.putExtra(
+                            /*startNetworkSurveyIntent.putExtra(
                                 "mqtt_config_json",
                                 mqttConfigJsonString
-                            )
+                            )*/
 
+                            startNetworkSurveyIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                            startNetworkSurveyIntent.setComponent(ComponentName("com.craxiom.networksurvey","com.craxiom.networksurvey.SurveyControlReceiver"));
                             sendBroadcast(startNetworkSurveyIntent)
+
+                            Log.i("MainActivity", "Sent the start survey intent")
                         }) {
                             Text("Send Intent")
                         }
