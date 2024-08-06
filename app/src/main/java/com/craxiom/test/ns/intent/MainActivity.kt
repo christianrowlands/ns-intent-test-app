@@ -54,27 +54,28 @@ class MainActivity : ComponentActivity() {
                             // MQTT is configured via a JSON string
                             val mqttConfigJsonString = "{\"mqtt_username\": \"auser\", " +
                                     "\"mqtt_password\": \"apassword\", " +
-                                    "\"mqtt_host\": \"cloud.mymqttserver.com\", " +
-                                    "\"mqtt_port\": 8883, " +
+                                    "\"mqtt_host\": \"172.22.50.234\", " +
+                                    "\"mqtt_port\": 1883, " +
                                     "\"mqtt_client\": \"aclient\", " +
-                                    "\"mqtt_tls\": true, " +
+                                    "\"mqtt_tls\": false, " +
                                     "\"cellular_stream_enabled\": true, " +
-                                    "\"wifi_stream_enabled\": true"
-                            /*startNetworkSurveyIntent.putExtra(
+                                    "\"wifi_stream_enabled\": true, " +
+                                    "\"device_status_stream_enabled\": true " +
+                                    "}"
+                            startNetworkSurveyIntent.putExtra(
                                 "mqtt_config_json",
                                 mqttConfigJsonString
-                            )*/
+                            )
 
-                            startNetworkSurveyIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
                             startNetworkSurveyIntent.component = ComponentName(
                                 "com.craxiom.networksurvey",
                                 "com.craxiom.networksurvey.services.NetworkSurveyService"
                             )
                             startForegroundService(startNetworkSurveyIntent)
 
-                            Log.i("MainActivity", "Sent the start survey intent")
+                            Log.i("MainActivity", "Sent the start survey intent to the service")
                         }) {
-                            Text("Send Start Intent")
+                            Text("Send Start Service Intent")
                         }
 
                         Spacer(modifier = Modifier.height(24.dp))
@@ -91,89 +92,10 @@ class MainActivity : ComponentActivity() {
 
                             Log.i("MainActivity", "Sent the stop survey intent")
                         }) {
-                            Text("Send Stop Intent")
+                            Text("Send Stop Service Intent")
                         }
 
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        Button(onClick = {
-                            val startNetworkSurveyIntent =
-                                Intent("com.craxiom.networksurvey.START_SURVEY")
-
-                            // These flags are for file logging
-                            startNetworkSurveyIntent.putExtra("cellular_file_logging", true)
-                            startNetworkSurveyIntent.putExtra("wifi_file_logging", true)
-
-                            // MQTT is configured via a JSON string
-                            val mqttConfigJsonString = "{\"mqtt_username\": \"auser\", " +
-                                    "\"mqtt_password\": \"apassword\", " +
-                                    "\"mqtt_host\": \"cloud.mymqttserver.com\", " +
-                                    "\"mqtt_port\": 8883, " +
-                                    "\"mqtt_client\": \"aclient\", " +
-                                    "\"mqtt_tls\": true, " +
-                                    "\"cellular_stream_enabled\": true, " +
-                                    "\"wifi_stream_enabled\": true"
-                            /*startNetworkSurveyIntent.putExtra(
-                                "mqtt_config_json",
-                                mqttConfigJsonString
-                            )*/
-
-                            startNetworkSurveyIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
-                            startNetworkSurveyIntent.component = ComponentName(
-                                "com.craxiom.networksurvey",
-                                "com.craxiom.networksurvey.NetworkSurveyActivity"
-                            )
-                            startActivity(startNetworkSurveyIntent)
-
-                            Log.i("MainActivity", "Sent the start survey intent")
-                        }) {
-                            Text("Send Start Activity Intent")
-                        }
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        Button(onClick = {
-                            /*val startNetworkSurveyIntent =
-                                Intent("com.craxiom.networksurvey.START_SURVEY")
-
-                            // These flags are for file logging
-                            startNetworkSurveyIntent.putExtra("cellular_file_logging", true)
-                            startNetworkSurveyIntent.putExtra("wifi_file_logging", true)*/
-
-                            // MQTT is configured via a JSON string
-                            val mqttConfigJsonString = "{\"mqtt_username\": \"auser\", " +
-                                    "\"mqtt_password\": \"apassword\", " +
-                                    "\"mqtt_host\": \"cloud.mymqttserver.com\", " +
-                                    "\"mqtt_port\": 8883, " +
-                                    "\"mqtt_client\": \"aclient\", " +
-                                    "\"mqtt_tls\": true, " +
-                                    "\"cellular_stream_enabled\": true, " +
-                                    "\"wifi_stream_enabled\": true"
-                            /*startNetworkSurveyIntent.putExtra(
-                                "mqtt_config_json",
-                                mqttConfigJsonString
-                            )*/
-
-                            /*startNetworkSurveyIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
-                            startNetworkSurveyIntent.setComponent(
-                                ComponentName(
-                                    "com.craxiom.networksurvey",
-                                    "com.craxiom.networksurvey.SurveyControlReceiver"
-                                )
-                            )
-                            sendBroadcast(startNetworkSurveyIntent)*/
-
-                            val i = Intent("com.craxiom.networksurvey.START_SURVEY")
-                            i.setPackage("com.craxiom.networksurvey")
-                            i.putExtra("immediatestart", true)
-                            sendBroadcast(i)
-
-                            Log.i("MainActivity", "Sent the start survey intent")
-                        }) {
-                            Text("Send Start Intent Broadcast")
-                        }
-
-                        Spacer(modifier = Modifier.height(24.dp))
+                        /*Spacer(modifier = Modifier.height(24.dp))
 
                         Button(onClick = {
                             val i = Intent("com.mendhak.gpslogger.TASKER_COMMAND")
@@ -184,7 +106,7 @@ class MainActivity : ComponentActivity() {
                             Log.i("MainActivity", "Sent the start survey intent for GPSLogger")
                         }) {
                             Text("Send Start Intent Broadcast to GSPLogger")
-                        }
+                        }*/
                     }
                 }
             }
