@@ -88,7 +88,7 @@ class MainActivity : ComponentActivity() {
                                 "com.craxiom.networksurvey",
                                 "com.craxiom.networksurvey.services.NetworkSurveyService"
                             )
-                            stopService(stopNetworkSurveyIntent)
+                            startForegroundService(stopNetworkSurveyIntent)
 
                             Log.i("MainActivity", "Sent the stop survey intent")
                         }) {
